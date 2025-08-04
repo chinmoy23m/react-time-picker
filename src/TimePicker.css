@@ -1,0 +1,229 @@
+.react-time-picker {
+  position: relative;
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.react-time-picker.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.time-picker-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.time-picker-input:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.time-picker-input:focus-within {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.time-display {
+  color: #374151;
+  font-weight: 500;
+}
+
+.time-display:empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  font-weight: normal;
+}
+
+.time-picker-arrow {
+  color: #6b7280;
+  font-size: 12px;
+  transition: transform 0.2s ease;
+  margin-left: 8px;
+}
+
+.react-time-picker:has(.time-picker-dropdown) .time-picker-arrow {
+  transform: rotate(180deg);
+}
+
+.time-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-top: 4px;
+  padding: 16px;
+  min-width: 200px;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.time-picker-section {
+  margin-bottom: 12px;
+}
+
+.time-picker-section:last-child {
+  margin-bottom: 0;
+}
+
+.time-picker-section label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.time-picker-section select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.time-picker-section select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.time-picker-section select:hover {
+  border-color: #9ca3af;
+}
+
+.ampm-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+.ampm-button {
+  flex: 1;
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.ampm-button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.ampm-button.active {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+}
+
+.ampm-button.active:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .time-picker-dropdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 300px;
+    margin-top: 0;
+  }
+  
+  .time-picker-section {
+    margin-bottom: 16px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .react-time-picker {
+    color: #e5e7eb;
+  }
+  
+  .time-picker-input {
+    background-color: #1f2937;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+  
+  .time-picker-input:hover {
+    border-color: #6b7280;
+  }
+  
+  .time-display {
+    color: #e5e7eb;
+  }
+  
+  .time-display:empty::before {
+    color: #9ca3af;
+  }
+  
+  .time-picker-dropdown {
+    background-color: #1f2937;
+    border-color: #4b5563;
+  }
+  
+  .time-picker-section select {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+  
+  .time-picker-section select:hover {
+    border-color: #6b7280;
+  }
+  
+  .ampm-button {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+  
+  .ampm-button:hover {
+    background-color: #4b5563;
+    border-color: #6b7280;
+  }
+}
