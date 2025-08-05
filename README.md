@@ -1,18 +1,17 @@
 # React Time Picker
 
-A customizable and accessible React time picker component that supports both 12-hour and 24-hour formats. Built with TypeScript and designed for modern React applications.
+A customizable React time picker component supporting both 12-hour and 24-hour formats. Easy to install and use in any React project.
 
 ## Features
 
-- ✅ **12-hour and 24-hour formats** - Switch between AM/PM and 24-hour time display
-- ✅ **Seconds support** - Optional seconds selection
-- ✅ **Custom step intervals** - Configure minute and second intervals (e.g., 15-minute steps)
-- ✅ **TypeScript support** - Full type definitions included
+- ✅ **12/24 Hour Format Support** - Choose between 12-hour (AM/PM) or 24-hour format
+- ✅ **Seconds Picker** - Optional seconds selection
+- ✅ **Customizable Styling** - Custom CSS classes and inline styles
 - ✅ **Accessible** - Keyboard navigation and screen reader support
-- ✅ **Customizable styling** - CSS classes and inline styles support
-- ✅ **Responsive design** - Works on desktop and mobile devices
-- ✅ **Dark mode support** - Automatic dark theme detection
-- ✅ **Zero dependencies** - Only requires React as peer dependency
+- ✅ **Responsive Design** - Works on desktop and mobile devices
+- ✅ **Dark Mode Support** - Automatic dark mode detection
+- ✅ **TypeScript Support** - Full TypeScript definitions included
+- ✅ **No Dependencies** - Zero runtime dependencies (only React peer dependency)
 
 ## Installation
 
@@ -26,9 +25,9 @@ or
 yarn add react-time-picker
 ```
 
-## Quick Start
+## Basic Usage
 
-```tsx
+```jsx
 import React, { useState } from 'react';
 import { TimePicker } from 'react-time-picker';
 
@@ -36,196 +35,211 @@ function App() {
   const [time, setTime] = useState('');
 
   return (
-    <TimePicker
-      value={time}
-      onChange={setTime}
-      format12Hour={false}
-      placeholder="Select time"
-    />
+    <div>
+      <h2>24-Hour Format</h2>
+      <TimePicker
+        value={time}
+        onChange={setTime}
+        placeholder="Select time"
+      />
+      
+      <h2>12-Hour Format</h2>
+      <TimePicker
+        value={time}
+        onChange={setTime}
+        use12Hour={true}
+        placeholder="Select time"
+      />
+    </div>
   );
 }
 ```
 
-## API Reference
-
-### Props
+## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `value` | `string` | `''` | The current time value in HH:MM format (24h) or HH:MM AM/PM format (12h) |
-| `onChange` | `(time: string) => void` | `undefined` | Callback function called when time changes |
-| `format12Hour` | `boolean` | `false` | Whether to use 12-hour format (true) or 24-hour format (false) |
-| `disabled` | `boolean` | `false` | Whether the time picker is disabled |
-| `placeholder` | `string` | `'Select time'` | Placeholder text for the input field |
-| `className` | `string` | `''` | Custom CSS class name for styling |
-| `style` | `React.CSSProperties` | `undefined` | Inline styles for the component |
-| `showSeconds` | `boolean` | `false` | Whether to show seconds in the time picker |
-| `minuteStep` | `number` | `1` | Step value for minutes (e.g., 15 for 15-minute intervals) |
-| `secondStep` | `number` | `1` | Step value for seconds (e.g., 30 for 30-second intervals) |
-
-### Types
-
-```tsx
-interface TimePickerProps {
-  value?: string;
-  onChange?: (time: string) => void;
-  format12Hour?: boolean;
-  disabled?: boolean;
-  placeholder?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  showSeconds?: boolean;
-  minuteStep?: number;
-  secondStep?: number;
-}
-
-interface TimeValue {
-  hours: number;
-  minutes: number;
-  seconds: number;
-  period?: 'AM' | 'PM';
-}
-```
+| `value` | `string` | `''` | Current time value in HH:mm or HH:mm:ss format |
+| `onChange` | `(time: string) => void` | - | Callback when time changes |
+| `use12Hour` | `boolean` | `false` | Whether to use 12-hour format |
+| `disabled` | `boolean` | `false` | Whether the picker is disabled |
+| `className` | `string` | `''` | Custom CSS class name |
+| `style` | `React.CSSProperties` | `{}` | Custom inline styles |
+| `placeholder` | `string` | `'Select time'` | Placeholder text |
+| `showSeconds` | `boolean` | `false` | Whether to show seconds picker |
+| `minTime` | `string` | - | Minimum time allowed |
+| `maxTime` | `string` | - | Maximum time allowed |
+| `showAmPm` | `boolean` | `true` | Whether to show AM/PM selector for 12-hour format |
 
 ## Examples
 
-### 24-Hour Format
+### 24-Hour Format with Seconds
 
-```tsx
-import { TimePicker } from 'react-time-picker';
-
-function Example() {
-  const [time, setTime] = useState('14:30');
-
-  return (
-    <TimePicker
-      value={time}
-      onChange={setTime}
-      format12Hour={false}
-      placeholder="Select time (24h)"
-    />
-  );
-}
+```jsx
+<TimePicker
+  value="14:30:45"
+  onChange={setTime}
+  showSeconds={true}
+  placeholder="Select time with seconds"
+/>
 ```
 
-### 12-Hour Format with AM/PM
+### 12-Hour Format
 
-```tsx
-import { TimePicker } from 'react-time-picker';
-
-function Example() {
-  const [time, setTime] = useState('2:30 PM');
-
-  return (
-    <TimePicker
-      value={time}
-      onChange={setTime}
-      format12Hour={true}
-      placeholder="Select time (12h)"
-    />
-  );
-}
+```jsx
+<TimePicker
+  value="02:30 PM"
+  onChange={setTime}
+  use12Hour={true}
+  showAmPm={true}
+  placeholder="Select time (12-hour)"
+/>
 ```
 
-### With Seconds
+### Disabled State
 
-```tsx
-import { TimePicker } from 'react-time-picker';
-
-function Example() {
-  const [time, setTime] = useState('14:30:45');
-
-  return (
-    <TimePicker
-      value={time}
-      onChange={setTime}
-      showSeconds={true}
-      placeholder="Select time with seconds"
-    />
-  );
-}
-```
-
-### 15-Minute Intervals
-
-```tsx
-import { TimePicker } from 'react-time-picker';
-
-function Example() {
-  const [time, setTime] = useState('14:00');
-
-  return (
-    <TimePicker
-      value={time}
-      onChange={setTime}
-      minuteStep={15}
-      placeholder="Select time (15min steps)"
-    />
-  );
-}
+```jsx
+<TimePicker
+  value="09:00"
+  onChange={setTime}
+  disabled={true}
+/>
 ```
 
 ### Custom Styling
 
-```tsx
-import { TimePicker } from 'react-time-picker';
-import './custom-styles.css';
+```jsx
+<TimePicker
+  value={time}
+  onChange={setTime}
+  className="my-custom-time-picker"
+  style={{
+    border: '2px solid #3b82f6',
+    borderRadius: '8px'
+  }}
+/>
+```
 
-function Example() {
-  const [time, setTime] = useState('');
+### With Time Constraints
 
-  return (
-    <TimePicker
-      value={time}
-      onChange={setTime}
-      className="my-custom-time-picker"
-      style={{ width: '250px' }}
-    />
-  );
-}
+```jsx
+<TimePicker
+  value={time}
+  onChange={setTime}
+  minTime="09:00"
+  maxTime="17:00"
+  placeholder="Select time between 9 AM and 5 PM"
+/>
 ```
 
 ## Styling
 
-The component comes with default styling that supports both light and dark themes. You can customize the appearance using CSS classes:
+The component comes with built-in styles that work out of the box. You can customize the appearance using:
+
+1. **CSS Classes**: Add your own CSS classes via the `className` prop
+2. **Inline Styles**: Use the `style` prop for custom inline styles
+3. **CSS Custom Properties**: Override the default styles using CSS custom properties
+
+### Custom CSS Example
 
 ```css
-/* Custom styling example */
-.my-custom-time-picker .time-picker-input {
-  border: 2px solid #3182ce;
-  border-radius: 8px;
-  padding: 12px;
+.my-custom-time-picker {
+  --time-picker-border-color: #3b82f6;
+  --time-picker-background: #f8fafc;
+  --time-picker-text-color: #1e293b;
 }
 
-.my-custom-time-picker .time-picker-input:focus {
-  border-color: #2c5aa0;
-  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+.my-custom-time-picker .time-picker-input {
+  border-radius: 12px;
+  padding: 12px 16px;
 }
 ```
 
-### CSS Classes
+## TypeScript
 
-- `.time-picker` - Main container
-- `.time-picker-input` - Input field
-- `.time-picker-dropdown` - Dropdown container
-- `.time-picker-columns` - Columns container
-- `.time-picker-column` - Individual column
-- `.time-picker-column-header` - Column header
-- `.time-picker-column-list` - Scrollable list
-- `.time-picker-option` - Individual time option
-- `.time-picker-option.selected` - Selected option
+The package includes full TypeScript support with exported types:
+
+```typescript
+import { TimePicker, TimePickerProps } from 'react-time-picker';
+
+interface MyComponentProps {
+  time: string;
+  onTimeChange: (time: string) => void;
+}
+
+const MyComponent: React.FC<MyComponentProps> = ({ time, onTimeChange }) => {
+  return (
+    <TimePicker
+      value={time}
+      onChange={onTimeChange}
+      use12Hour={true}
+    />
+  );
+};
+```
 
 ## Browser Support
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
+
+## Development
+
+### Prerequisites
+
+- Node.js 14+
+- npm or yarn
+
+### Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+
+# Run linting
+npm run lint
+```
+
+### Project Structure
+
+```
+src/
+├── index.ts          # Main exports
+├── TimePicker.tsx    # Main component
+├── types.ts          # TypeScript definitions
+└── TimePicker.css    # Component styles
+```
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT © [chinmoy23mondal@gmail.com]
+MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Changelog
+
+### 1.0.0
+- Initial release
+- Support for 12/24 hour formats
+- Optional seconds picker
+- Customizable styling
+- TypeScript support
+- Responsive design
+- Dark mode support

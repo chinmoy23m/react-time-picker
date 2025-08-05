@@ -7,7 +7,6 @@ yarn-error.log*
 # Build outputs
 dist/
 build/
-*.tsbuildinfo
 
 # Environment variables
 .env
@@ -21,7 +20,6 @@ build/
 .idea/
 *.swp
 *.swo
-*~
 
 # OS generated files
 .DS_Store
@@ -36,13 +34,54 @@ Thumbs.db
 logs
 *.log
 
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
 # Coverage directory used by tools like istanbul
 coverage/
-*.lcov
 
-# Jest
-coverage/
+# nyc test coverage
+.nyc_output
 
-# Temporary folders
-tmp/
-temp/
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# next.js build output
+.next
+
+# nuxt.js build output
+.nuxt
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/

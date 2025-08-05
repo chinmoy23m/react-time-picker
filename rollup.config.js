@@ -1,9 +1,9 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
-import babel from '@rollup/plugin-babel';
+import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import postcss from 'rollup-plugin-postcss';
+import css from 'rollup-plugin-css-only';
 
 export default {
   input: 'src/index.ts',
@@ -11,38 +11,25 @@ export default {
     {
       file: 'dist/index.js',
       format: 'cjs',
-      exports: 'named',
-      sourcemap: true
+      sourcemap: true,
     },
     {
       file: 'dist/index.esm.js',
       format: 'esm',
-      exports: 'named',
-      sourcemap: true
-    }
+      sourcemap: true,
+    },
   ],
   plugins: [
     peerDepsExternal(),
-    resolve({
-      browser: true
-    }),
+    resolve(),
     commonjs(),
+    css({ output: 'index.css' }),
     typescript({
-      tsconfig: './tsconfig.json'
+      tsconfig: './tsconfig.json',
+      declaration: true,
+      declarationDir: './dist',
     }),
-    babel({
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**',
-      presets: [
-        '@babel/preset-env',
-        '@babel/preset-react',
-        '@babel/preset-typescript'
-      ]
-    }),
-    postcss({
-      extract: true,
-      minimize: true
-    })
+    terser(),
   ],
-  external: ['react', 'react-dom']
+  external: ['react', 'react-dom'],
 };

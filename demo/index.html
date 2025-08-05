@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Time Picker Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .time-display {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>React Time Picker Demo</h1>
+        <p>This demo shows various configurations of the React Time Picker component.</p>
+        
+        <div class="demo-section">
+            <h3>24-Hour Format</h3>
+            <div id="time-picker-24h"></div>
+            <div class="time-display" id="time-display-24h">Selected: None</div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>12-Hour Format</h3>
+            <div id="time-picker-12h"></div>
+            <div class="time-display" id="time-display-12h">Selected: None</div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>With Seconds</h3>
+            <div id="time-picker-seconds"></div>
+            <div class="time-display" id="time-display-seconds">Selected: None</div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Disabled State</h3>
+            <div id="time-picker-disabled"></div>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Custom Styling</h3>
+            <div id="time-picker-custom"></div>
+            <div class="time-display" id="time-display-custom">Selected: None</div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState } = React;
+        
+        // Mock TimePicker component for demo
+        const TimePicker = ({ value, onChange, use12Hour = false, disabled = false, showSeconds = false, className = '', style = {}, placeholder = 'Select time' }) => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [hours, setHours] = useState(0);
+            const [minutes, setMinutes] = useState(0);
+            const [seconds, setSeconds] = useState(0);
+            const [ampm, setAmpm] = useState('AM');
+            
+            const handleTimeChange = () => {
+                let displayHours = hours;
+                if (use12Hour) {
+                    if (ampm === 'PM' && hours !== 12) displayHours += 12;
+                    if (ampm === 'AM' && hours === 12) displayHours = 0;
+                }
+                
+                const timeStr = `${displayHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                const finalTime = showSeconds ? `${timeStr}:${seconds.toString().padStart(2, '0')}` : timeStr;
+                onChange?.(finalTime);
+            };
+            
+            return (
+                <div className={`react-time-picker ${className} ${disabled ? 'disabled' : ''}`} style={style}>
+                    <div className="time-picker-input" onClick={() => !disabled && setIsOpen(!isOpen)}>
+                        <span className="time-display">{value || placeholder}</span>
+                        <span className="time-picker-arrow">▼</span>
+                    </div>
+                    
+                    {isOpen && !disabled && (
+                        <div className="time-picker-dropdown">
+                            <div className="time-picker-section">
+                                <label>Hours</label>
+                                <select value={hours} onChange={(e) => { setHours(parseInt(e.target.value)); handleTimeChange(); }}>
+                                    {Array.from({length: use12Hour ? 12 : 24}, (_, i) => use12Hour ? i + 1 : i).map(hour => (
+                                        <option key={hour} value={hour}>{hour.toString().padStart(2, '0')}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            <div className="time-picker-section">
+                                <label>Minutes</label>
+                                <select value={minutes} onChange={(e) => { setMinutes(parseInt(e.target.value)); handleTimeChange(); }}>
+                                    {Array.from({length: 60}, (_, i) => i).map(minute => (
+                                        <option key={minute} value={minute}>{minute.toString().padStart(2, '0')}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            {showSeconds && (
+                                <div className="time-picker-section">
+                                    <label>Seconds</label>
+                                    <select value={seconds} onChange={(e) => { setSeconds(parseInt(e.target.value)); handleTimeChange(); }}>
+                                        {Array.from({length: 60}, (_, i) => i).map(second => (
+                                            <option key={second} value={second}>{second.toString().padStart(2, '0')}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+                            
+                            {use12Hour && (
+                                <div className="time-picker-section">
+                                    <label>AM/PM</label>
+                                    <div className="ampm-toggle">
+                                        <button type="button" className={`ampm-button ${ampm === 'AM' ? 'active' : ''}`} onClick={() => { setAmpm('AM'); handleTimeChange(); }}>
+                                            AM
+                                        </button>
+                                        <button type="button" className={`ampm-button ${ampm === 'PM' ? 'active' : ''}`} onClick={() => { setAmpm('PM'); handleTimeChange(); }}>
+                                            PM
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+        
+        // Demo App
+        const DemoApp = () => {
+            const [time24h, setTime24h] = useState('');
+            const [time12h, setTime12h] = useState('');
+            const [timeSeconds, setTimeSeconds] = useState('');
+            const [timeCustom, setTimeCustom] = useState('');
+            
+            return (
+                <div>
+                    <div className="demo-section">
+                        <h3>24-Hour Format</h3>
+                        <TimePicker value={time24h} onChange={setTime24h} placeholder="Select time (24-hour)" />
+                        <div className="time-display">Selected: {time24h || 'None'}</div>
+                    </div>
+                    
+                    <div className="demo-section">
+                        <h3>12-Hour Format</h3>
+                        <TimePicker value={time12h} onChange={setTime12h} use12Hour={true} placeholder="Select time (12-hour)" />
+                        <div className="time-display">Selected: {time12h || 'None'}</div>
+                    </div>
+                    
+                    <div className="demo-section">
+                        <h3>With Seconds</h3>
+                        <TimePicker value={timeSeconds} onChange={setTimeSeconds} showSeconds={true} placeholder="Select time with seconds" />
+                        <div className="time-display">Selected: {timeSeconds || 'None'}</div>
+                    </div>
+                    
+                    <div className="demo-section">
+                        <h3>Disabled State</h3>
+                        <TimePicker value="09:00" onChange={() => {}} disabled={true} placeholder="Disabled time picker" />
+                    </div>
+                    
+                    <div className="demo-section">
+                        <h3>Custom Styling</h3>
+                        <TimePicker 
+                            value={timeCustom} 
+                            onChange={setTimeCustom} 
+                            className="custom-time-picker"
+                            style={{
+                                border: '2px solid #3b82f6',
+                                borderRadius: '8px',
+                                backgroundColor: '#f8fafc'
+                            }}
+                            placeholder="Custom styled picker" 
+                        />
+                        <div className="time-display">Selected: {timeCustom || 'None'}</div>
+                    </div>
+                </div>
+            );
+        };
+        
+        ReactDOM.render(<DemoApp />, document.querySelector('.container'));
+    </script>
+    
+    <link rel="stylesheet" href="../dist/index.css">
+</body>
+</html>
