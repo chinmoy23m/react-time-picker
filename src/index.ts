@@ -1,2 +1,3 @@
 export { default as TimePicker } from './TimePicker';
-export type { TimePickerProps, TimePickerState } from './types';
+export type { TimePickerProps, TimeValue } from './types';
+export * from './utils';

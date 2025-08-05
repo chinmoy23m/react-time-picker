@@ -1,9 +1,9 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
-import terser from '@rollup/plugin-terser';
+import babel from '@rollup/plugin-babel';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import css from 'rollup-plugin-css-only';
+import postcss from 'rollup-plugin-postcss';
 
 export default {
   input: 'src/index.ts',
@@ -11,25 +11,38 @@ export default {
     {
       file: 'dist/index.js',
       format: 'cjs',
-      sourcemap: true,
+      exports: 'named',
+      sourcemap: true
     },
     {
       file: 'dist/index.esm.js',
       format: 'esm',
-      sourcemap: true,
-    },
+      exports: 'named',
+      sourcemap: true
+    }
   ],
   plugins: [
     peerDepsExternal(),
-    resolve(),
+    resolve({
+      browser: true
+    }),
     commonjs(),
     typescript({
-      tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: './dist',
+      tsconfig: './tsconfig.json'
     }),
-    css({ output: 'time-picker.css' }),
-    terser(),
+    babel({
+      babelHelpers: 'bundled',
+      exclude: 'node_modules/**',
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-react',
+        '@babel/preset-typescript'
+      ]
+    }),
+    postcss({
+      extract: true,
+      minimize: true
+    })
   ],
-  external: ['react', 'react-dom'],
+  external: ['react', 'react-dom']
 };

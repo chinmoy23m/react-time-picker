@@ -1,33 +1,35 @@
 export interface TimePickerProps {
-  /** Current time value in HH:mm format */
+  /** The initial time value in HH:MM format (24-hour) or HH:MM AM/PM format (12-hour) */
   value?: string;
-  /** Callback when time changes */
+  /** Callback function called when time changes */
   onChange?: (time: string) => void;
-  /** Whether to use 12-hour format (default: false) */
-  use12Hour?: boolean;
-  /** Whether the picker is disabled */
+  /** Whether to use 12-hour format (true) or 24-hour format (false). Default: false */
+  format12Hour?: boolean;
+  /** Whether the time picker is disabled. Default: false */
   disabled?: boolean;
-  /** Custom CSS class name */
-  className?: string;
-  /** Custom styles */
-  style?: React.CSSProperties;
-  /** Placeholder text */
+  /** Placeholder text for the input field */
   placeholder?: string;
-  /** Whether to show seconds picker */
+  /** Custom CSS class name for styling */
+  className?: string;
+  /** Inline styles for the component */
+  style?: React.CSSProperties;
+  /** Whether to show seconds in the time picker. Default: false */
   showSeconds?: boolean;
-  /** Minimum time allowed */
-  minTime?: string;
-  /** Maximum time allowed */
-  maxTime?: string;
-  /** Whether to show AM/PM selector for 12-hour format */
-  showAmPm?: boolean;
+  /** Step value for minutes (e.g., 15 for 15-minute intervals). Default: 1 */
+  minuteStep?: number;
+  /** Step value for seconds (e.g., 30 for 30-second intervals). Default: 1 */
+  secondStep?: number;
 }
 
-export interface TimePickerState {
+export interface TimeValue {
   hours: number;
   minutes: number;
   seconds: number;
-  ampm: 'AM' | 'PM';
+  period?: 'AM' | 'PM';
+}
+
+export interface DropdownProps {
   isOpen: boolean;
-  activeInput: 'hours' | 'minutes' | 'seconds' | null;
+  onClose: () => void;
+  children: React.ReactNode;
 }

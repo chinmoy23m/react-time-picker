@@ -1,83 +1,114 @@
 import React, { useState } from 'react';
 import { TimePicker } from '../src';
+import './App.css';
 
 function App() {
-  const [time24, setTime24] = useState('');
-  const [time12, setTime12] = useState('');
-  const [timeWithSeconds, setTimeWithSeconds] = useState('');
-  const [disabledTime, setDisabledTime] = useState('09:00');
+  const [time24, setTime24] = useState('14:30');
+  const [time12, setTime12] = useState('2:30 PM');
+  const [timeWithSeconds, setTimeWithSeconds] = useState('14:30:45');
+  const [timeStep, setTimeStep] = useState('14:00');
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>React Time Picker Examples</h1>
-      
-      <div style={{ marginBottom: '30px' }}>
-        <h2>24-Hour Format</h2>
-        <TimePicker
-          value={time24}
-          onChange={setTime24}
-          placeholder="Select time (24-hour)"
-        />
-        <p>Selected time: {time24 || 'None'}</p>
-      </div>
+    <div className="App">
+      <header className="App-header">
+        <h1>React Time Picker Examples</h1>
+        <p>A customizable time picker component for React</p>
+      </header>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h2>12-Hour Format</h2>
-        <TimePicker
-          value={time12}
-          onChange={setTime12}
-          use12Hour={true}
-          placeholder="Select time (12-hour)"
-        />
-        <p>Selected time: {time12 || 'None'}</p>
-      </div>
+      <main className="examples">
+        <section className="example-section">
+          <h2>24-Hour Format</h2>
+          <p>Standard 24-hour time format (HH:MM)</p>
+          <TimePicker
+            value={time24}
+            onChange={setTime24}
+            format12Hour={false}
+            placeholder="Select time (24h)"
+          />
+          <p className="selected-time">Selected: {time24}</p>
+        </section>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h2>With Seconds</h2>
-        <TimePicker
-          value={timeWithSeconds}
-          onChange={setTimeWithSeconds}
-          showSeconds={true}
-          placeholder="Select time with seconds"
-        />
-        <p>Selected time: {timeWithSeconds || 'None'}</p>
-      </div>
+        <section className="example-section">
+          <h2>12-Hour Format</h2>
+          <p>12-hour time format with AM/PM (HH:MM AM/PM)</p>
+          <TimePicker
+            value={time12}
+            onChange={setTime12}
+            format12Hour={true}
+            placeholder="Select time (12h)"
+          />
+          <p className="selected-time">Selected: {time12}</p>
+        </section>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h2>Disabled State</h2>
-        <TimePicker
-          value={disabledTime}
-          onChange={setDisabledTime}
-          disabled={true}
-          placeholder="Disabled time picker"
-        />
-      </div>
+        <section className="example-section">
+          <h2>With Seconds</h2>
+          <p>Time picker that includes seconds selection</p>
+          <TimePicker
+            value={timeWithSeconds}
+            onChange={setTimeWithSeconds}
+            format12Hour={false}
+            showSeconds={true}
+            placeholder="Select time with seconds"
+          />
+          <p className="selected-time">Selected: {timeWithSeconds}</p>
+        </section>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h2>Custom Styling</h2>
-        <TimePicker
-          value={time24}
-          onChange={setTime24}
-          className="custom-time-picker"
-          style={{
-            border: '2px solid #3b82f6',
-            borderRadius: '8px',
-            backgroundColor: '#f8fafc'
-          }}
-          placeholder="Custom styled picker"
-        />
-      </div>
+        <section className="example-section">
+          <h2>15-Minute Steps</h2>
+          <p>Time picker with 15-minute intervals</p>
+          <TimePicker
+            value={timeStep}
+            onChange={setTimeStep}
+            format12Hour={false}
+            minuteStep={15}
+            placeholder="Select time (15min steps)"
+          />
+          <p className="selected-time">Selected: {timeStep}</p>
+        </section>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h2>With Time Constraints</h2>
-        <TimePicker
-          value={time24}
-          onChange={setTime24}
-          minTime="09:00"
-          maxTime="17:00"
-          placeholder="Select time between 9 AM and 5 PM"
-        />
-      </div>
+        <section className="example-section">
+          <h2>Disabled State</h2>
+          <p>Disabled time picker</p>
+          <TimePicker
+            value="10:30"
+            disabled={true}
+            placeholder="Disabled time picker"
+          />
+        </section>
+
+        <section className="example-section">
+          <h2>Custom Styling</h2>
+          <p>Time picker with custom CSS class</p>
+          <TimePicker
+            value={time24}
+            onChange={setTime24}
+            format12Hour={false}
+            className="custom-time-picker"
+            placeholder="Custom styled picker"
+          />
+        </section>
+      </main>
+
+      <footer className="App-footer">
+        <h3>Installation</h3>
+        <pre><code>npm install react-time-picker</code></pre>
+        
+        <h3>Basic Usage</h3>
+        <pre><code>{`import { TimePicker } from 'react-time-picker';
+
+function MyComponent() {
+  const [time, setTime] = useState('');
+  
+  return (
+    <TimePicker
+      value={time}
+      onChange={setTime}
+      format12Hour={false}
+      placeholder="Select time"
+    />
+  );
+}`}</code></pre>
+      </footer>
     </div>
   );
 }
