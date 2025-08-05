@@ -25,7 +25,7 @@
     "24-hour",
     "ui"
   ],
-  "author": "Your Name",
+  "author": "chinmoy23mondal@gmail.com",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0",
